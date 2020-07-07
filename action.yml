@@ -1,0 +1,22 @@
+name: 'Control Hub'
+description: 'Interact with StreamSets Control Hub'
+inputs:
+  license:
+    description: Activation Key for StreamSets SDK
+    required: true
+  control_hub_url:
+    description: Control Hub Instance URL
+    required: true
+    default: https://cloud.streamsets.com
+  username:
+    description: Control Hub Username
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - python3
+    - /actions/get_pipeline.py
+    - ${{ inputs.control_hub_url }}
+    - ${{ inputs.username }}
+    - ${{ inputs.pipeline_id }}
