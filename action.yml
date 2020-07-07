@@ -4,7 +4,7 @@ inputs:
   license:
     description: Activation Key for StreamSets SDK
     required: true
-  control_hub_url:
+  url:
     description: Control Hub Instance URL
     required: true
     default: https://cloud.streamsets.com
@@ -17,6 +17,6 @@ runs:
   args:
     - python3
     - /actions/get_pipeline.py
-    - ${{ inputs.control_hub_url }}
+    - ${{ inputs.url }}
     - ${{ inputs.username }}
     - ${{ inputs.pipeline_id }}
