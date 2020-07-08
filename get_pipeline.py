@@ -4,6 +4,7 @@ import argparse
 import json
 import os
 
+from git import Repo
 from streamsets.sdk import ControlHub
 
 parser = argparse.ArgumentParser(description="Fetch some pipelines")
@@ -19,6 +20,12 @@ sch = ControlHub(
 
 pipeline = sch.pipelines.get(pipeline_id=args.pipeline_id)
 pipelineDefinition = json.loads(pipeline._data["pipelineDefinition"])
-with open("pipeline-%s.json" % pipeline.pipeline_id, "w") as exported_pipeline:
+pipeline_file_name = "pipeline-%s.json" % pipeline.pipeline_id
+with open(pipeline_file_name, "w") as exported_pipeline:
     json.dump(pipelineDefinition, exported_pipeline, indent=2)
-print("wrote pipeline: %s" % args.pipeline_id)
+
+repo = Repo(".")
+index = repo.index
+added_pipeline_path = os.path.join(repo.working_tree_dir, pipeline_file_name)
+index.add([added_pipeline_path])
+index.commit("Pipeline %s updated" % pipeline.name)
