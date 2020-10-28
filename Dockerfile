@@ -1,5 +1,7 @@
 FROM python:3.6
 
+LABEL org.opencontainers.image.source https://github.com/kunickiaj/action-streamsets-control-hub
+
 ENV actions /actions
 WORKDIR ${actions}
 
